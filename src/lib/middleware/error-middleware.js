@@ -4,7 +4,6 @@ import logger from '../logger';
 
 export default (error, request, response, next) => { /*eslint-disable-line*/
   logger.log(logger.ERROR, `ERROR MIDDLEWARE: ${JSON.stringify(error)}`);
-  console.log(JSON.stringify(error, null, 2), 'THIS IS ERRRRRRORRRRRRRR');
   // I might have a status property
   if (error.status) {
     logger.log(logger.ERROR, `Responding with a ${error.status} code and message ${error.message}`);
