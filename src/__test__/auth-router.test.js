@@ -12,52 +12,49 @@ describe('AUTH router', () => {
   afterAll(stopServer);
   afterEach(removeAccountMockPromise);
 
-  test('POST 200 to /api/signup for successful account creation and receipt of a TOKEN', () => {
+  test('POST 200 to /api/signup for successful account creation and receipt of a TOKEN', async () => {
     const mockAccount = {
       username: faker.internet.userName(),
       email: faker.internet.email(),
       password: 'thestruggleisreal',
       phone: faker.phone.phoneNumberFormat(0),
     };
-    return superagent.post(`${apiUrl}/signup`)
-      .send(mockAccount)
-      .then((response) => {
-        expect(response.status).toEqual(200);
-        expect(response.body.token).toBeTruthy();
-      })
-      .catch((err) => {
-        throw err;
-      });
+    
+    try { 
+      const response = await superagent.post(`${apiUrl}/signup`)
+        .send(mockAccount);
+
+      expect(response.status).toEqual(200);
+      expect(response.body.token).toBeTruthy();
+    } catch (err) {
+      throw err;
+    }
   });
 
 
-  test('GET 200 to api/login for successful login and receipt of a TOKEN', () => {
+  test('GET 200 to api/login for successful login and receipt of a TOKEN', async () => {
     // let token;
-    return createAccountMockPromise()
-      .then((mockData) => {
-        // token = mockData.token; 
-        return superagent.get(`${apiUrl}/login`)
-          .auth(mockData.account.username, mockData.originalRequest.password); // this is how we send authorization headers via REST/HTTP
-      })
-      .then((response) => {
-        // When I login, I get a 200 status code and a TOKEN
-        expect(response.status).toEqual(200);
-        expect(response.body.token).toBeTruthy();
-        // expect(response.body.token).toEqual(token);
-      })
-      .catch((err) => {
-        throw err;
-      });
+    try {
+      const mockData = await createAccountMockPromise();
+      // token = mockData.token; 
+      const response = await superagent.get(`${apiUrl}/login`)
+        .auth(mockData.account.username, mockData.originalRequest.password); // this is how we send authorization headers via REST/HTTP
+    
+      expect(response.status).toEqual(200);
+      expect(response.body.token).toBeTruthy();
+      // expect(response.body.token).toEqual(token);
+    } catch (err) {
+      throw err;
+    }
   });
 
-  test('GET 400 to /api/login for unsuccesful login with bad username and password', () => {
-    return superagent.get(`${apiUrl}/login`)
-      .auth('bad username', 'bad password')
-      .then((response) => {
-        throw response;
-      })
-      .catch((err) => {
-        expect(err.status).toEqual(400);
-      });
+  test('GET 400 to /api/login for unsuccesful login with bad username and password', async () => {
+    try { 
+      const response = await superagent.get(`${apiUrl}/login`)
+        .auth('bad username', 'bad password');
+      throw response;
+    } catch (err) {
+      expect(err.status).toEqual(400);
+    }
   });
 });
