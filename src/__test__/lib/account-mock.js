@@ -1,6 +1,5 @@
 import faker from 'faker';
 import Account from '../../model/account';
-import { Organizations } from 'aws-sdk';
 
 const createAccountMockPromise = () => {
   const mockData = {};
@@ -10,7 +9,6 @@ const createAccountMockPromise = () => {
     password: faker.lorem.words(5),
     phone: faker.phone.phoneNumberFormat(0),
   };
-  console.log(originalRequest.username, originalRequest.email, originalRequest.password, originalRequest.phone, '!!!!!!!!');
   return Account.create(originalRequest.username, originalRequest.email, originalRequest.password, originalRequest.phone)
     .then((account) => {
       mockData.originalRequest = originalRequest;

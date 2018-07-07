@@ -32,8 +32,6 @@ app.all('*', (request, response) => {
 });
 
 app.use(errorMiddleWare);
-
-
 const startServer = () => {
   return mongoose.connect(process.env.MONGODB_URI)
     .then(() => {

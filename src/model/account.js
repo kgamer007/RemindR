@@ -73,7 +73,6 @@ const skipInit = process.env.NODE_ENV === 'development';
 const Account = mongoose.model('accounts', accountSchema, 'accounts', skipInit);
 
 Account.create = (username, email, password, phone) => {
-  console.log(username, email, password, phone, 'HELLO README');
   return bcrypt.hash(password, HASH_ROUNDS)
     .then((passwordHash) => {
       password = null; /*eslint-disable-line*/

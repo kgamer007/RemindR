@@ -12,7 +12,7 @@ describe('AUTH router', () => {
   afterAll(stopServer);
   afterEach(removeAccountMockPromise);
 
-  test.only('POST 200 to /api/signup for successful account creation and receipt of a TOKEN', () => {
+  test('POST 200 to /api/signup for successful account creation and receipt of a TOKEN', () => {
     const mockAccount = {
       username: faker.internet.userName(),
       email: faker.internet.email(),
