@@ -12,8 +12,6 @@ const myMessage = new Message({
   sentTo: '+16502079775',
   body: 'sup world',
   reminderId: 'potatoID',
-  replyTime: null,
-  repyBody: null,
 });
 
 console.log(myMessage);
