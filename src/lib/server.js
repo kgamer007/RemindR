@@ -11,6 +11,7 @@ import loggerMiddleware from './middleware/logger-middleware';
 
 // our routes
 import authRouter from '../router/auth-router';
+import messageRouter from '../router/message-router';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -25,6 +26,7 @@ app.use(express.json());
 // our own api routers or middleware
 app.use(loggerMiddleware);
 app.use(authRouter);
+app.use(messageRouter);
 // catch all
 app.all('*', (request, response) => {
   console.log('Returning a 404 from the catch/all route'); // eslint-disable-line

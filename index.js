@@ -2,6 +2,8 @@
 
 require('dotenv').config();
 
+console.log('say hi when testing');
+
 if (!process.env.NODE_ENV) {
   throw new Error('Undefined NODE_ENV');
 }
