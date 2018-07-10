@@ -13,17 +13,17 @@ const uploadS3Asset = (path, key) => {
 
   return s3.upload(uploadProperties)
     .promise()
-      .then((response) => {
-        logger.log(logger.INFO, `SUCCESSFULLY HIT AWS AND RECEIVED RESPONSE: ${JSON.stringify(response, null, 2)}`);
-        return fs.remove(path)
-          .then(() => response.Location)
-          .catch(err => Promise.reject(err));
-      })
-      .catch((err) => {
-        return fs.remove(path)
-          .then(() => Promise.reject(err))
-          .catch(fsErr => Promise.reject(fsErr));
-      });
+    .then((response) => {
+      logger.log(logger.INFO, `SUCCESSFULLY HIT AWS AND RECEIVED RESPONSE: ${JSON.stringify(response, null, 2)}`);
+      return fs.remove(path)
+        .then(() => response.Location)
+        .catch(err => Promise.reject(err));
+    })
+    .catch((err) => {
+      return fs.remove(path)
+        .then(() => Promise.reject(err))
+        .catch(fsErr => Promise.reject(fsErr));
+    });
 };
 
 const removeS3Asset = (key) => {
