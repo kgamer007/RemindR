@@ -3,7 +3,7 @@ import logger from './logger';
 
 const uploadS3Asset = (path, key) => {
   const aws = require('aws-sdk');
-  const s3 = new aws.s3();
+  const s3 = new aws.s3(); //eslint-disable-line
   const uploadProperties = {
     Bucket: process.env.BUCKET_URL,
     ACL: 'public-read',
@@ -28,7 +28,7 @@ const uploadS3Asset = (path, key) => {
 
 const removeS3Asset = (key) => {
   const aws = require('aws-sdk');
-  const s3 = new aws.s3();
+  const s3 = new aws.s3(); //eslint-disable-line
   const removeProperties = {
     Key: key,
     Bucket: process.env.BUCKET_URL,
