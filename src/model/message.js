@@ -4,16 +4,12 @@ import mongoose from 'mongoose';
 // import Profile from './profile';
 // import logger from '../lib/logger';
 
-console.log('My Vars', process.env);
-
-console.log(process.env.TWILIO_ACCOUNT_SID);
-
 const client = new Twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 
 const messageSchema = mongoose.Schema({
   accountId: {
-    type: mongoose.Schema.Types.ObjectId(),
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'accounts',
     require: true,
   },
@@ -26,7 +22,7 @@ const messageSchema = mongoose.Schema({
     required: true,
   },
   reminderId: {
-    type: mongoose.Schema.Types.ObjectId(),
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'reminders',
     required: true,
   },
