@@ -3,10 +3,11 @@ import mongoose from 'mongoose';
 // import HttpError from 'http-errors';
 // import Profile from './profile';
 // import logger from '../lib/logger';
+// require('dotenv').config({ path: '../../.env' });
 
-require('dotenv');
+console.log('My Vars', process.env);
 
-const client = new Twilio(process.env.accountSid, process.env.authToken);
+const client = new Twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 const messageSchema = mongoose.Schema({
   accountId: {
