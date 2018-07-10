@@ -4,9 +4,12 @@ import mongoose from 'mongoose';
 // import Profile from './profile';
 // import logger from '../lib/logger';
 
-require('dotenv');
+console.log('My Vars', process.env);
 
-const client = new Twilio(process.env.accountSid, process.env.authToken);
+console.log(process.env.TWILIO_ACCOUNT_SID);
+
+const client = new Twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+
 
 const messageSchema = mongoose.Schema({
   accountId: {
