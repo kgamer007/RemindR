@@ -51,9 +51,16 @@ imageRouter.get('/api/images/:id?', bearerAuthMiddleware, (request, response, ne
     .catch(next);
 });
 
-// imageRouter.put('/api/images/:id?', bearerAuthMiddleware, (request, response, next) => {
-//   if (!request.account) return next(new HttpErrors(401), 'IMAGE ROUTER ')
-// });
+imageRouter.put('/api/images/:id?', bearerAuthMiddleware, (request, response, next) => {
+  const options = { runValitdators: true, new: true };
+  return Image.findIdAndUpdate(request.params.id, request.body, options)
+    .then((updatedImage) => {
+      logger.log(logger.INFO, 'IMAGE ROUTER PUT: successfully updated, we have 200 status');
+      return response(updatedImage);
+    })
+    .catch(next);
+});
+
 imageRouter.delete('/api/images/:id?', bearerAuthMiddleware, (request, response, next) => {
   if (!request.account) return next(new HttpErrors(401), 'IMAGE ROUTER DELETE: invalid request');
   if (!request.account) return next(new HttpErrors(400, 'IMAGE ROUTER DELETE: no id provided'));
