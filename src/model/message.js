@@ -2,10 +2,9 @@ import Twilio from 'twilio';
 import mongoose from 'mongoose';
 // import HttpError from 'http-errors';
 // import Profile from './profile';
-// import logger from '../lib/logger';
+import logger from '../lib/logger';
 
 const client = new Twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-
 
 const messageSchema = mongoose.Schema({
   accountId: {
@@ -42,8 +41,12 @@ messageSchema.methods.sendText = function sendText() {
     to: this.sentTo, // Text this number
     from: process.env.TWILIO_NUMBER, // From a valid Twilio number
   })
-    .then(message => console.log(message.sid, 'MESSAGE SUCCESSFULLY SENT'))
-    .catch(error => console.log(error, 'ERROR SENDING MESSAGE'));
+    .then((message) => {
+      logger.log(logger.INFO, `SENDING A TEXT MESSAGE: ${message}`);
+    })
+    .catch((error) => {
+      logger.log(logger.INFO, `ERROR SENDING A TEXT MESSAGE: ${error}`);
+    });
 };
 
 const skipInit = process.env.NODE_ENV === 'development';
