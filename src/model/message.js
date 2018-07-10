@@ -13,7 +13,8 @@ const client = new Twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUT
 
 const messageSchema = mongoose.Schema({
   accountId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId(),
+    ref: 'accounts',
     require: true,
   },
   sentTo: {
@@ -25,7 +26,9 @@ const messageSchema = mongoose.Schema({
     required: true,
   },
   reminderId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId(),
+    ref: 'reminders',
+    required: true,
   },
   replyTime: {
     type: Date,
