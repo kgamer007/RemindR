@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import HttpErrors from 'http-errors';
-import Account from '../model/account';
 import bearerAuthMiddleware from '../lib/middleware/bearer-auth-middleware';
 import logger from '../lib/logger';
 import Message from '../model/message';
@@ -19,6 +18,11 @@ messageRouter.post('/api/messages', bearerAuthMiddleware, (request, response, ne
       message.sendText();
       return message.save();
     })
+    .then((savedMessage) => {
+      return response.json(savedMessage);
+    })
     .catch(next);
-return undefined;
+  return undefined;
 });
+
+export default messageRouter;
