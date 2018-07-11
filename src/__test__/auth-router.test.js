@@ -6,6 +6,7 @@ import { createAccountMockPromise, removeAccountMockPromise } from './lib/accoun
 
 
 require('dotenv').config({ path: `${__dirname}/../../.env` });
+
 const apiUrl = `http://localhost:${process.env.PORT}/api`;
 
 describe('AUTH router', () => {

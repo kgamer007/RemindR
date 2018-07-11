@@ -17,7 +17,6 @@ export default (request, response, next) => {
       return Promise.reject(new HttpErrors(400, `BEARER AUTH - JSONWEBTOKEN ERROR ${JSON.stringify(err)}`));
     })
     .then((decryptedToken) => {
-
       return Account.findOne({ tokenSeed: decryptedToken.tokenSeed });
     })
     .then((account) => {
