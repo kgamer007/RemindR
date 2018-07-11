@@ -22,9 +22,9 @@ describe('TESTING PROFILE ROUTER', () => {
   describe('POST ROUTES TESTING', () => {
     test('POST 200 to /api/profiles for successfully created profile', async () => {
       const mockProfile = {
-        firstName: faker.firstName(),
-        lastName: faker.lastName(),
-        imageId: faker.internet.url(),
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        // imageId: new mongoose.Types.ObjectId(),
       };
       try {
         const response = await superagent.post(`${apiUrl}/profiles`)
@@ -36,7 +36,7 @@ describe('TESTING PROFILE ROUTER', () => {
         expect(response.body.lastName).toEqual(mockProfile.lastName);
         expect(response.body.imageId).toEqual(mockProfile.imageId);
       } catch (err) {
-        expect(err.status).toEqual(200);
+        expect(err.status).toEqual('foo');
       }
     });
 

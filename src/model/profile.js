@@ -20,7 +20,7 @@ const profileSchema = mongoose.Schema({
   imageId: {
     type: mongoose.Schema.Types.ObjectId,
     unique: true,
-    ref: 'assets',
+    // ref: 'assets',
   },
 });
 

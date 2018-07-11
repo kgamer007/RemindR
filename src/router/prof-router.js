@@ -8,7 +8,7 @@ const profileRouter = new Router();
 
 profileRouter.post('/api/profiles', bearerAuthMiddleware, (request, response, next) => {
   if (!request.account) return next(new HttpErrors(400, 'POST PROFILE ROUTER-AUTH: invalid request'));
-
+  console.log('req.account', request.account);
   Profile.init()
     .then(() => {
       return new Profile({

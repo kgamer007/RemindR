@@ -8,7 +8,6 @@ const createProfileMockPromise = () => {
   return createAccountMockPromise()
     .then((mockAccountData) => {
       mockData.account = mockAccountData.account;
-      console.log(mockData, 'here is where we are at rn');
 
       const mockProfile = {
         firstName: faker.name.firstName(),
