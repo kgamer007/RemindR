@@ -4,9 +4,8 @@ import faker from 'faker';
 import { startServer, stopServer } from '../lib/server';
 import { createAccountMockPromise, removeAccountMockPromise } from './lib/account-mock';
 
+
 require('dotenv').config({ path: `${__dirname}/../../.env` });
-
-
 const apiUrl = `http://localhost:${process.env.PORT}/api`;
 
 describe('AUTH router', () => {
@@ -32,7 +31,6 @@ describe('AUTH router', () => {
       throw err;
     }
   });
-
 
   test('GET 200 to api/login for successful login and receipt of a TOKEN', async () => {
     // let token;
