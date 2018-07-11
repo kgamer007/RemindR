@@ -3,16 +3,20 @@
 import mongoose from 'mongoose';
 
 const imageSchema = mongoose.Schema({
-  accountId: {
-    type: mongoose.Schema.Types.ObjectId, 
+  title: {
+    type: String,
     required: true,
   },
-  imageUrl: {
-    type: String, 
+  url: {
+    type: String,
     required: true,
   },
   fileName: {
     type: String,
+  },
+  accountId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
   },
 }, { timestamps: true });
 

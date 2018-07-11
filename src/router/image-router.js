@@ -19,20 +19,23 @@ imageRouter.post('/api/images', bearerAuthMiddleware, multerUpload.any(), (reque
 
   const [file] = request.files;
 
-  logger.log(logger.INFO, 'IMAGE ROUTER POST: valid image ready to upload');
+  logger.log(logger.INFO, `IMAGE ROUTER POST: valid image ready to upload: ${JSON.stringify(file, null, 2)}`);
 
   const key = `${file.filename}.${file.originalname}`;
+
   return uploadS3Asset(file.path, key)
     .then((url) => {
-      logger.log(logger.INFO, 'IMAGE ROUTER POST: valid image URL from Amazon S3');
+      logger.log(logger.INFO, `IMAGE ROUTER POST: valid image URL from Amazon S3: ${url}`);
+
       return new Image({
-        accountId: request.account._id,
+        title: req.body.title,
+        accountId: req.account._id,
         fileName: key,
         url,
       }).save();
     })
     .then((newImage) => {
-      logger.log(logger.INFO, 'IMAGE ROUTER POST: new image created');
+      logger.log(logger.INFO, `IMAGE ROUTER POST: new image created: ${JSON.stringify(newImage, null, 2)}`);
       return response.json(newImage);
     })
     .catch(next);
@@ -45,7 +48,7 @@ imageRouter.get('/api/images/:id?', bearerAuthMiddleware, (request, response, ne
   return Image.findById(request.params.id)
     .then((image) => {
       if (!image) return next(new HttpErrors(404, 'IMAGE ROUTER GET: no images are found'));
-      logger.log(logger.INFO, 'IMAGE ROUTER GET: successfully found image');
+      logger.log(logger.INFO, `successfully found image ${JSON.stringify(image, null, 2)}`);
       return response.json(image);
     })
     .catch(next);
@@ -77,5 +80,3 @@ imageRouter.delete('/api/images/:id?', bearerAuthMiddleware, (request, response,
     })
     .catch(next);
 });
-
-export default imageRouter;
