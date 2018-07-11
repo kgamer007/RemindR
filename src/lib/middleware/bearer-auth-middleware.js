@@ -18,9 +18,10 @@ export default (request, response, next) => {
     })
     .then((decryptedToken) => {
       console.log(decryptedToken, 'THIS IS THE TOKEN AFTER DECRYPT BEST BELIEVE'); // eslint-disable-line
-      return Account.findOne({ tokenSeed: decryptedToken.tokenSeed });
+      return Account.findOne({ tokenSeed: decryptedToken.tokenSeed });      
     })
     .then((account) => {
+      console.log('here', account); // eslint-disable-line
       if (!account) return next(new HttpErrors(400, 'BEARER AUTH- NO ACCOUNT HAS BEEN FOUND MATE'));
       request.account = account;
       return next();

@@ -12,15 +12,9 @@ const imageRouter = new Router();
 
 imageRouter.post('/api/images', bearerAuthMiddleware, multerUpload.any(), (request, response, next) => {
   if (!request.account) return next(new HttpErrors(401, 'IMAGE ROUTER WILL NOT POST: not accessible'));
-
-  if (!request.body.accountId || !request.body.imageUrl) {
-    return next(new HttpErrors(400, 'IMAGE ROUTER WILL NOT POST: '));
-  }
-
   const [file] = request.files;
 
   logger.log(logger.INFO, `IMAGE ROUTER POST: valid image ready to upload: ${JSON.stringify(file, null, 2)}`);
-
   const key = `${file.filename}.${file.originalname}`;
 
   return uploadS3Asset(file.path, key)
@@ -28,8 +22,8 @@ imageRouter.post('/api/images', bearerAuthMiddleware, multerUpload.any(), (reque
       logger.log(logger.INFO, `IMAGE ROUTER POST: valid image URL from Amazon S3: ${url}`);
 
       return new Image({
-        title: req.body.title,
-        accountId: req.account._id,
+        title: request.body.title,
+        accountId: request.account._id,
         fileName: key,
         url,
       }).save();
@@ -55,7 +49,7 @@ imageRouter.get('/api/images/:id?', bearerAuthMiddleware, (request, response, ne
 });
 
 imageRouter.put('/api/images/:id?', bearerAuthMiddleware, (request, response, next) => {
-  const options = { runValitdators: true, new: true };
+  const options = { runValidators: true, new: true };
   return Image.findIdAndUpdate(request.params.id, request.body, options)
     .then((updatedImage) => {
       logger.log(logger.INFO, 'IMAGE ROUTER PUT: successfully updated, we have 200 status');
@@ -74,9 +68,14 @@ imageRouter.delete('/api/images/:id?', bearerAuthMiddleware, (request, response,
       const key = image.fileName;
       return removeS3Asset(key);
     })
-    .then((result) => {
-      logger.log(logger.INFO, 'IMAGE ROUTER DELETE: succesfully deleted image');
-      return response.json(result);
+    .then(() => {
+      Image.findByIdAndRemove(request.params.id)
+        .then((image) => {
+          logger.log(logger.INFO, 'IMAGE ROUTER DELETE: succesfully deleted image', image);
+          return response.sendStatus(204);
+        });
     })
     .catch(next);
 });
+
+export default imageRouter;
