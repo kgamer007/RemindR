@@ -1,21 +1,29 @@
-'use strict';
-
+import 'babel-polyfill';
 import faker from 'faker';
 import Image from '../../model/image';
+import Account from '../../model/account';
+import { createAccountMockPromise } from './account-mock';
 
-const createImageMock = () => {
-  const imageMock = {};
-  imageMock.request = {
-    account: imageMock.account._id,
+
+const createImageMockPromise = async () => {
+  const mockData = {};
+  const mockAccountRes = await createAccountMockPromise();
+  mockData.account = mockAccountRes.account;
+  mockData.token = mockAccountRes.token;
+  const image = await new Image({
+    account: mockData.account._id,
     imageUrl: faker.random.image(),
-  };
-  return Image.create(imageMock.request.account, imageMock.request.imageUrl)
-    .then((image) => {
-      imageMock.image = image;
-      return imageMock;
-    });
+  }).save();
+  mockData.image = image;
+  return mockData;
 };
 
-const removeImageMock = () => Image.remove({});
 
-export { createImageMock, removeImageMock };
+const removeImagesAndAccounts = () => {
+  return Promise.all([
+    Image.remove({}),
+    Account.remove({}),
+  ]);
+};
+
+export { createImageMockPromise, removeImagesAndAccounts };

@@ -7,7 +7,6 @@ const jswtVerify = promisify(jswt.verify);
 
 export default (request, response, next) => {
   if (!request.headers.authorization) return next(new HttpErrors(400, 'BEARER AUTH MIDDLEWARE: no headers auth my duderino'));
-  console.log(request.headers.authorization, 'AUTHORIZATION MY HOMIES');
 
   const token = request.headers.authorization.split('Bearer ')[1];
   if (!token) return next(new HttpErrors(400, 'BEARER AUTH MIDDLEWARE: no token received madame'));
@@ -17,7 +16,6 @@ export default (request, response, next) => {
       return Promise.reject(new HttpErrors(400, `BEARER AUTH - JSONWEBTOKEN ERROR ${JSON.stringify(err)}`));
     })
     .then((decryptedToken) => {
-      console.log(decryptedToken, 'THIS IS THE TOKEN AFTER DECRYPT BEST BELIEVE');
       return Account.findOne({ tokenSeed: decryptedToken.tokenSeed });
     })
     .then((account) => {

@@ -1,12 +1,6 @@
 'use strict';
 
 import mongoose from 'mongoose';
-import Twilio from 'twilio';
-import HttpError from 'http-errors';
-import logger from '../lib/logger';
-import Profile from './profile';
-
-const client = new Twilio(process.env.accountSid, process.env.authToken);
 
 const imageSchema = mongoose.Schema({
   accountId: {
@@ -16,6 +10,9 @@ const imageSchema = mongoose.Schema({
   imageUrl: {
     type: String, 
     required: true,
+  },
+  fileName: {
+    type: String,
   },
 }, { timestamps: true });
 

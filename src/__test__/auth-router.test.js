@@ -8,8 +8,6 @@ console.log(__dirname);
 
 require('dotenv').config({ path: `${__dirname}/../../.env` });
 
-console.log(process.env);
-
 const apiUrl = `http://localhost:${process.env.PORT}/api`;
 
 describe('AUTH router', () => {
