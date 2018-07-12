@@ -14,6 +14,7 @@ afterAll(stopServer);
 
 const mockMessageData = {};
 let token;
+let message;
 
 beforeEach(() => {
   return createAccountMockPromise()
@@ -23,6 +24,16 @@ beforeEach(() => {
       mockMessageData.reminderId = new mongoose.Types.ObjectId();
       mockMessageData.sentTo = `1${faker.phone.phoneNumberFormat()}`.replace(/-/g, '');
       mockMessageData.body = faker.lorem.words(5);
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
+beforeEach(() => {
+  return createMockMessage()
+    .then((response) => {
+      message = response;
     })
     .catch((err) => {
       throw err;
@@ -75,14 +86,18 @@ describe('GET api/messages/:id', () => {
   // // let accountId; //eslint-disable-line
   // let token;//eslint-disable-line
   
-  test.only('GET 200 for a successful fetching of a message', () => {
-    return superagent.get(`${apiUrl}/`)
-      .set('Authorization', `Bearer ${token}`)
+  test('GET 200 for a successful fetching of a message', () => {
+    return createMockMessage()
+      .then((mock) => {
+        message = mock;
+        return superagent.get(`${apiUrl}/${message._id}`)
+          .set('Authorization', `Bearer ${token}`);
+      })
       .then((response) => {
         expect(response.status).toBe(200);
         expect(response.body.accountId).toEqual(message.accountId.toString());
         expect(response.body.reminderId).toEqual(message.reminderId.toString());
-        expect(response.body.sentTo).toBe(message.sendTo);
+        expect(response.body.sendTo).toBe(message.sendTo);
         expect(response.body.body).toBe(message.body);
       })
       .catch((err) => {
@@ -100,92 +115,83 @@ describe('GET api/messages/:id', () => {
         expect(error.status).toEqual(404);
       });
   });
-  // });
+});
 
-  // --------------- PUT ROUTE ----------------------
+// --------------- PUT ROUTE ----------------------
 
-  describe('PUT /api/messages/:id', () => {
-    const mockMessageForUpdate = {
-      accountId: '1234',
-      reminderId: '4567',
-      sentTo: '15555555555',
-      body: 'what up world?',
-    };
+describe('PUT /api/messages/:id', () => {
+  const mockMessageForUpdate = {
+    sentTo: '15555555555',
+    body: 'what up world?',
+  };
   
-    test('200 PUT for successful update of a message', () => {
-      return createMockMessage()
-        .then((mockData) => {
-          return superagent.put(`${apiUrl}/${message._id}`)
-            .send(mockMessageForUpdate);
-        })
-        .then((response) => {
-          expect(response.status).toBe(200);
-          expect(response.body.accountId).toBe(mockMessageForUpdate.accountId);
-          expect(response.body.reminderId).toBe(mockMessageForUpdate.reminderId);
-          expect(response.body.sentTo).toBe(mockMessageForUpdate.sentTo);
-          expect(response.body.body).toBe(mockMessageForUpdate.body);
-        })
-        .catch((err) => {
-          throw err;
-        });
-    });
-  
-    test('400 PUT if no request body was provided', () => {
-      return createMockMessage()
-        .then((data) => {
-          return superagent.put(`${apiUrl}/${message._id}`);
-        })
-        .then((response) => {
-          throw response;
-        })
-        .catch((err) => {
-          expect(err.status).toBe(400);
-        });
-    });
-  
-    test('404 PUT for a valid request made with an id that was not found', () => {
-      return superagent.put(`${apiUrl}/123`)
-        .send(mockMessageForUpdate)
-        .then((response) => {
-          throw response;
-        })
-        .catch((err) => {
-          expect(err.status).toBe(404);
-        });
-    });
+  test('200 PUT for successful update of a message', () => {
+    return createMockMessage()
+      .then((mock) => {
+        message = mock;
+        return superagent.put(`${apiUrl}/${message._id}`)
+          .set('Authorization', `Bearer ${token}`)
+          .send(mockMessageForUpdate);
+      })
+      .then((response) => {
+        expect(response.status).toBe(200);
+        expect(response.body.sentTo).toBe(mockMessageForUpdate.sentTo);
+        expect(response.body.body).toBe(mockMessageForUpdate.body);
+      })
+      .catch((err) => {
+        throw err;
+      });
   });
-
-  // --------------DELETE ROUTE -------------------
-
-  describe('DELETE ROUTES to /api/messages/:id', () => {
-    test('204 DELETE /api/images for succesful delete', async () => {
-      try {
-        const response = await superagent.delete(`${apiUrl}/${message._id}`)
-          .set('Authorization', `Bearer ${token}`);
-        expect(response.status).toEqual(204);
-      } catch (error) {
-        expect(error).toEqual('FAILING IN DELETE 204 POST');
-      }
-    });
-
-    test('404 DELETE for bad id', async () => {
-      try {
-        const response = await superagent.delete(`${apiUrl}/${'BADID'}`)
-          .set('Authorization', `Bearer ${token}`);
-        expect(response).toEqual('FAILING IN DELETE 404');
-      } catch (error) {
-        expect(error.status).toBe(404);
-      }
-    });
-
-    test('401 DELETE for bad token', async () => {
-      try {
-        const response = await superagent.delete(`${apiUrl}/${message._id}`)
-          .set('Authorization', `Bearer ${'BADTOKEN'}`);
-        expect(response).toEqual('FAILING IN DELETE 401');
-      } catch (error) {
-        expect(error.status).toBe(401);
-      }
-    });
+  
+  // test.only('400 PUT if no request body was provided', () => {
+  //   return createMockMessage()
+  //     .then(() => {
+  //       return superagent.put(`${apiUrl}/${message._id}`)
+  //         .set('Authorization', `Bearer ${token}`);
+  //     })
+  //     .then(() => {
+  //       expect(true).toBeFalsy();
+  //     })
+  //     .catch((err) => {
+  //       expect(err.status).toBe(400);
+  //     });
+  // });
+  
+  test('404 PUT for a valid request made with an id that was not found', () => {
+    return superagent.put(`${apiUrl}/123`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(mockMessageForUpdate)
+      .then((response) => {
+        throw response;
+      })
+      .catch((err) => {
+        expect(err.status).toBe(404);
+      });
   });
 });
+
+// --------------DELETE ROUTE -------------------
+
+describe('DELETE ROUTES to /api/messages/:id', () => {
+  test('204 DELETE /api/images for succesful delete', async () => {
+    try {
+      // console.log(message, 'LOOOK FOR ME!!!!!');
+      const response = await superagent.delete(`${apiUrl}/${message._id}`).set('Authorization', `Bearer ${token}`);
+      expect(response.status).toEqual(204);
+      // message.findById(message._id)
+    } catch (error) {
+      expect(error.status).toEqual('FAILING IN DELETE 204 POST');
+    }
+  });
+
+  test('404 DELETE for bad id', async () => {
+    try {
+      const response = await superagent.delete(`${apiUrl}/${'BADID'}`)
+        .set('Authorization', `Bearer ${token}`);
+      expect(response).toEqual('FAILING IN DELETE 404');
+    } catch (error) {
+      expect(error.status).toBe(404);
+    }
+  });
+});
+// });

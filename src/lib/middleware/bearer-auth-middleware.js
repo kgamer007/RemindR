@@ -26,7 +26,7 @@ export default (request, response, next) => {
       console.log('here', account); // eslint-disable-line
       if (!account) return next(new HttpErrors(400, 'BEARER AUTH- NO ACCOUNT HAS BEEN FOUND MATE'));
       request.account = account; 
-      console.log('bottom of BA')
+      console.log('bottom of BA');
       return next();
     })
     .catch(next);

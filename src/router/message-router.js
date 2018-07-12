@@ -36,6 +36,7 @@ messageRouter.get('/api/messages/:id', bearerAuthMiddleware, (request, response,
       Message.findById(request.params.id)
         .then((returnedMessage) => {
           if (!returnedMessage) return next(HttpErrors(404, 'MESSAGE NOT FOUND'));
+          logger.log(logger.INFO, `FOUND MESSAGE!!!!!!!!!!!!!!!: ${JSON.stringify(returnedMessage, null, 2)}`);
           return response.json(returnedMessage);
         })
         .catch((err) => {
@@ -46,9 +47,8 @@ messageRouter.get('/api/messages/:id', bearerAuthMiddleware, (request, response,
   return undefined;
 });
 
-messageRouter.put('/api/messages/:id', (request, response, next) => {
-  if (JSON.stringify(request.body).length <= 2) return next(createError(400, 'Not found'));
-
+messageRouter.put('/api/messages/:id', bearerAuthMiddleware, (request, response, next) => {
+  if (JSON.stringify(request.body).length <= 2) return next(HttpErrors(400, 'Bad Request'));
   Message.init()
     .then(() => {
       logger.log(logger.INFO, `MESSAGE ROUTER BEFORE PUT: Updating message ${JSON.stringify(request.body)}`);
@@ -68,10 +68,12 @@ messageRouter.put('/api/messages/:id', (request, response, next) => {
   return undefined;
 });
 
-messageRouter.delete('/api/mesages/:id', (request, response, next) => {
+messageRouter.delete('/api/messages/:id', bearerAuthMiddleware, (request, response, next) => {
+  console.log('got this far');
   Message.init()
     .then(() => {
       logger.log(logger.INFO, `MESSAGE ROUTER BEFORE DELETE: Deleting message #${request.params.id}`);
+      
       return Message.findByIdAndRemove(request.params.id);
     })
     .then((data) => {
