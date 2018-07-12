@@ -13,6 +13,8 @@ import loggerMiddleware from './middleware/logger-middleware';
 import authRouter from '../router/auth-router';
 import messageRouter from '../router/message-router';
 import imageRouter from '../router/image-router';
+import profileRouter from '../router/prof-router';
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,9 +31,10 @@ app.use(loggerMiddleware);
 app.use(authRouter);
 app.use(messageRouter);
 app.use(imageRouter);
+app.use(profileRouter);
+
 // catch all
 app.all('*', (request, response) => {
-  console.log('Returning a 404 from the catch/all route'); // eslint-disable-line
   return response.sendStatus(404).send('Route Not Registered');
 });
 
