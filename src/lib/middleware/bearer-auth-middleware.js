@@ -20,6 +20,7 @@ export default (request, response, next) => {
       return Account.findOne({ tokenSeed: decryptedToken.tokenSeed });
     })
     .then((account) => {
+      console.log('here', account); // eslint-disable-line
       if (!account) return next(new HttpErrors(400, 'BEARER AUTH- NO ACCOUNT HAS BEEN FOUND MATE'));
       request.account = account;
       return next();

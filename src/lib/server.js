@@ -12,7 +12,9 @@ import loggerMiddleware from './middleware/logger-middleware';
 // our routes
 import authRouter from '../router/auth-router';
 import messageRouter from '../router/message-router';
+import imageRouter from '../router/image-router';
 import profileRouter from '../router/prof-router';
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,7 +30,9 @@ app.use(express.json());
 app.use(loggerMiddleware);
 app.use(authRouter);
 app.use(messageRouter);
+app.use(imageRouter);
 app.use(profileRouter);
+
 // catch all
 app.all('*', (request, response) => {
   return response.sendStatus(404).send('Route Not Registered');
