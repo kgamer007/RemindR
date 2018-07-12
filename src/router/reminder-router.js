@@ -55,4 +55,22 @@ reminderRouter.put('/api/reminders/:id?', bearerAuthMiddleware, (request, respon
   return undefined;
 });
 
+reminderRouter.delete('/api/reminders/:id?', bearerAuthMiddleware, (request, response, next) => {
+  if (!request.account) return next(new HttpErrors(401, 'REMINDER ROUTER POST ERROR: not authorized'));
+
+  Reminder.init()
+    .then(() => {
+      return Reminder.findByIdAndRemove(request.params.id);
+      // return Reminder.findOneAndRemove({ _id: request.params.id });
+    })
+    .then((deletedReminder) => {
+      logger.log(logger.INFO, `REMINDER ROUTER: FOUND THE MODEL, ${JSON.stringify(deletedReminder)}`);
+      
+      response.status(204).json(request.params.id);
+    })
+    .catch(next);
+  
+  return undefined;
+});
+
 export default reminderRouter;

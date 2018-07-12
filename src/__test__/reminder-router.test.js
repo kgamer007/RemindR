@@ -25,11 +25,11 @@ describe('POST /api/reminders', () => {
         sendTime: Date.now(),
         frequency: 'Daily',
       };
-  
+
       const response = await superagent.post(apiUrl)
         .set('Authorization', `Bearer ${token}`)
         .send(reminderData);
-        
+
       expect(response.status).toBe(200);
       expect(response.body.accountId).toBe(reminderData.accountId.toString());
       expect(response.body.body).toBe(reminderData.body);
@@ -42,11 +42,11 @@ describe('POST /api/reminders', () => {
     try {
       const { token } = await createAccountMockPromise();
       const reminderData = {};
-  
+
       const response = await superagent.post(apiUrl)
         .set('Authorization', `Bearer ${token}`)
         .send(reminderData);
-        
+
       expect(response.status).toBe('foo');
     } catch (err) {
       expect(err.status).toBe(400);
@@ -60,7 +60,7 @@ describe('GET /api/reminders', () => {
       const { reminder, token } = await createReminderMockPromise();
       const response = await superagent.get(`${apiUrl}/${reminder._id}`)
         .set('Authorization', `Bearer ${token}`);
-  
+
       expect(response.status).toBe(200);
       expect(response.body.accountId).toBe(reminder.accountId.toString());
       expect(response.body.body).toBe(reminder.body);
@@ -104,11 +104,67 @@ describe('PUT /api/reminders', () => {
       const response = await superagent.put(`${apiUrl}/${reminder._id}`)
         .set('Authorization', `Bearer ${token}`)
         .send(updatedData);
-      
+
       expect(response.status).toBe(200);
-      expect(response.body.body).toBe(updatedData.body);      
+      expect(response.body.body).toBe(updatedData.body);
     } catch (err) {
       expect(err).toBe('foo');
+    }
+  });
+
+  test('404 for bad path', async () => {
+    try {
+      const updatedData = { body: 'new body' };
+
+      const { token } = await createReminderMockPromise();
+      const response = await superagent.put(`${apiUrl}/${'BADPATH'}`)
+        .set('Authorization', `Bearer ${token}`)
+        .send(updatedData);
+
+      expect(response).toBe('foo');
+    } catch (err) {
+      expect(err.status).toBe(404);
+    }
+  });
+
+  test('400 for PUT with bad token', async () => {
+    try {
+      const updatedData = { body: 'new body' };
+
+      const { reminder } = await createReminderMockPromise();
+      const response = await superagent.put(`${apiUrl}/${reminder._id}`)
+        .set('Authorization', `Bearer ${'BADTOKEN'}`)
+        .send(updatedData);
+
+      expect(response).toBe('foo');
+    } catch (err) {
+      expect(err.status).toBe(400);
+    }
+  });
+});
+
+describe('DELETE api/reminders', () => {
+  test('204 for successful delete', async () => {
+    try {
+      const { reminder, token } = await createReminderMockPromise();
+      const response = await superagent.delete(`${apiUrl}/${reminder._id}`)
+        .set('Authorization', `Bearer ${token}`);
+
+      expect(response.status).toBe(204);
+    } catch (err) {
+      expect(err).toBe('foo');
+    }
+  });
+
+  test('404 for bad path', async () => {
+    try {
+      const { token } = await createReminderMockPromise();
+      const response = await superagent.delete(`${apiUrl}/${'BADPATH'}`)
+        .set('Authorization', `Bearer ${token}`);
+
+      expect(response).toBe('foo');
+    } catch (err) {
+      expect(err.status).toBe(404);
     }
   });
 });
