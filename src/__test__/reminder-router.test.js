@@ -84,7 +84,7 @@ describe('GET /api/reminders', () => {
     }
   });
 
-  test('400 GET for a valid request made with an invalid token', async () => {
+  test('400 GET for a valid request made with no token', async () => {
     try {
       const savedReminderData = await createReminderMockPromise();
       // const { token } = savedReminderData;
