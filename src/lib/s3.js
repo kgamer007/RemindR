@@ -2,10 +2,10 @@ import fs from 'fs-extra';
 import logger from './logger';
 
 const uploadS3Asset = (path, key) => {
-  const aws = require('aws-sdk');
-  const s3 = new aws.s3(); //eslint-disable-line
+  const AWS = require('aws-sdk');
+  const s3 = new AWS.S3(); //eslint-disable-line
   const uploadProperties = {
-    Bucket: process.env.BUCKET_URL,
+    Bucket: process.env.AWS_BUCKET,
     ACL: 'public-read',
     Key: key,
     Body: fs.createReadStream(path),
@@ -27,11 +27,11 @@ const uploadS3Asset = (path, key) => {
 };
 
 const removeS3Asset = (key) => {
-  const aws = require('aws-sdk');
-  const s3 = new aws.s3(); //eslint-disable-line
+  const AWS = require('aws-sdk');
+  const s3 = new AWS.S3(); //eslint-disable-line
   const removeProperties = {
     Key: key,
-    Bucket: process.env.BUCKET_URL,
+    Bucket: process.env.AWS_BUCKET,
   };
   return s3.deleteObject(removeProperties).promise();
 };
