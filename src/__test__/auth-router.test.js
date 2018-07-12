@@ -4,6 +4,9 @@ import faker from 'faker';
 import { startServer, stopServer } from '../lib/server';
 import { createAccountMockPromise, removeAccountMockPromise } from './lib/account-mock';
 
+
+require('dotenv').config({ path: `${__dirname}/../../.env` });
+
 const apiUrl = `http://localhost:${process.env.PORT}/api`;
 
 describe('AUTH router', () => {
