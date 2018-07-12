@@ -16,6 +16,5 @@ describe('POST api/messages', () => {
       .catch((err) => {
         console.log(err, 'ERR FROM MESSAGE ROUTER');
       });
-    // console.log(message);
   });
 });
