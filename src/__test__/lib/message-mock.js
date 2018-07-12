@@ -11,7 +11,6 @@ const createMockMessage = () => {
     body: faker.lorem.words(5),
   };
   const newMessage = new Message(mockData);
-  console.log(newMessage, 'NEW MESASSAGE IN MESSAGE-MOCK');
   return newMessage.save();
 };  
 
