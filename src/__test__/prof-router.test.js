@@ -1,5 +1,3 @@
-require('babel-polyfill');
-
 import superagent from 'superagent';
 import faker from 'faker';
 import { startServer, stopServer } from '../lib/server';
@@ -8,24 +6,27 @@ import { removeAllResources, createProfileMockPromise } from './lib/prof-mock';
 import Account from '../model/account';
 import Profile from '../model/profile';
 
+require('babel-polyfill');
+
 const apiUrl = `http://localhost:${process.env.PORT}/api`;
 
 describe('TESTING PROFILE ROUTER', () => {
   let mockData;
   let token;
   let account;
-  beforeAll(async () => {
-    startServer();
-    mockData = await createAccountMockPromise();
+
+  beforeEach(async () => {
+    await startServer();
+    mockData = await createAccountMockPromise(); // eslint-disable-line
     token = mockData.token;  /*eslint-disable-line*/
     account = mockData.account; /*eslint-disable-line*/
   });
-  afterAll(stopServer);
-  afterEach(async (done) => {
+  
+  afterEach(async () => {
     await removeAllResources();
     await Account.remove();
     await Profile.remove();
-    done();
+    await stopServer();
   });
 
   describe('GET ROUTES TESTING', () => {
@@ -61,6 +62,7 @@ describe('TESTING PROFILE ROUTER', () => {
       }
     });
   });
+
   describe('POST ROUTES TESTING', () => {
     test('POST 200 to /api/profiles for successfully created profile', async () => {
       const mockProfile = {
