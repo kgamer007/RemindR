@@ -6,10 +6,13 @@ import Account from '../../model/account';
 const jswtVerify = promisify(jswt.verify);
 
 export default (request, response, next) => {
+  console.log('secret', process.env.SECRET_KEY);
+  
   if (!request.headers.authorization) return next(new HttpErrors(400, 'BEARER AUTH MIDDLEWARE: no headers auth my duderino'));
-
-
+  
+  
   const token = request.headers.authorization.split('Bearer ')[1];
+  console.log('token', token);
   if (!token) return next(new HttpErrors(400, 'BEARER AUTH MIDDLEWARE: no token received madame'));
 
   return jswtVerify(token, process.env.SECRET_KEY)
@@ -21,7 +24,8 @@ export default (request, response, next) => {
     })
     .then((account) => {
       if (!account) return next(new HttpErrors(400, 'BEARER AUTH- NO ACCOUNT HAS BEEN FOUND MATE'));
-      request.account = account;
+      request.account = account; 
+      console.log('bottom of BA');
       return next();
     })
     .catch(next);

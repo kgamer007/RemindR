@@ -1,6 +1,8 @@
 'use strict';
 
-import 'babel-polyfill';
+
+require('babel-polyfill');
+
 
 require('dotenv').config();
 
