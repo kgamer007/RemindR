@@ -98,3 +98,21 @@ describe('GET /api/reminders', () => {
     }
   });
 });
+
+describe('PUT /api/reminders', () => {
+  test('200 for successful PUT', async () => {
+    try {
+      const updatedData = { body: 'new body' };
+
+      const { reminder, token } = await createReminderMockPromise();
+      const response = await superagent.put(`${apiUrl}/${reminder._id}`)
+        .set('Authorization', `Bearer ${token}`)
+        .send(updatedData);
+      
+      expect(response.status).toBe(200);
+      expect(response.body.body).toBe(updatedData.body);      
+    } catch (err) {
+      expect(err).toBe('foo');
+    }
+  });
+});
