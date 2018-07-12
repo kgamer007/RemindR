@@ -1,5 +1,7 @@
 'use strict';
 
+import 'babel-polyfill';
+
 require('dotenv').config();
 
 if (!process.env.NODE_ENV) {
