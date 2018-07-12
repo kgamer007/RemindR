@@ -1,7 +1,5 @@
 import Twilio from 'twilio';
 import mongoose from 'mongoose';
-// import HttpError from 'http-errors';
-// import Profile from './profile';
 import logger from '../lib/logger';
 
 const client = new Twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
@@ -9,7 +7,7 @@ const client = new Twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUT
 const messageSchema = mongoose.Schema({
   accountId: {
     type: mongoose.Schema.Types.ObjectId,
-    // ref: 'accounts',
+    ref: 'accounts',
     require: true,
   },
   sentTo: {
@@ -22,7 +20,7 @@ const messageSchema = mongoose.Schema({
   },
   reminderId: {
     type: mongoose.Schema.Types.ObjectId,
-    // ref: 'reminders',
+    ref: 'reminders',
     required: true,
   },
   replyTime: {

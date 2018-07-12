@@ -59,7 +59,7 @@ imageRouter.put('/api/images/:id?', bearerAuthMiddleware, (request, response, ne
 });
 
 imageRouter.delete('/api/images/:id?', bearerAuthMiddleware, (request, response, next) => {
-  if (!request.account) return next(new HttpErrors(401), 'IMAGE ROUTER DELETE: invalid request');
+  if (!request.account) return next(new HttpErrors(401, 'IMAGE ROUTER DELETE: invalid request'));
   if (!request.account) return next(new HttpErrors(400, 'IMAGE ROUTER DELETE: no id provided'));
 
   return Image.findById(request.params.id)
