@@ -31,6 +31,8 @@ describe('POST /api/reminders', () => {
         .send(reminderData);
         
       expect(response.status).toBe(200);
+      expect(response.body.accountId).toBe(reminderData.accountId.toString());
+      expect(response.body.body).toBe(reminderData.body);
     } catch (err) {
       expect(err).toBe('Error in 200 POST to api/reminders');
     }
@@ -60,13 +62,8 @@ describe('GET /api/reminders', () => {
         .set('Authorization', `Bearer ${token}`);
   
       expect(response.status).toBe(200);
-
-      // =================================================================
-      // WHY WONT THIS TEST PASS!!!!!????? need TA-overflow
-      // console.log(response.body.accountId, 'RESPONSE.BODY.ACCOUNTID');
-      // console.log(reminder.accountId, 'REMINDER.ACCOUNTID');
-      // expect(response.body.accountId).toBe(reminder.accountId);
-    // =================================================================
+      expect(response.body.accountId).toBe(reminder.accountId.toString());
+      expect(response.body.body).toBe(reminder.body);
     } catch (err) {
       expect(err).toBe('Error in 200 GET to api/reminders');
     }
@@ -87,7 +84,6 @@ describe('GET /api/reminders', () => {
   test('400 GET for a valid request made with no token', async () => {
     try {
       const savedReminderData = await createReminderMockPromise();
-      // const { token } = savedReminderData;
       const token = 'BADTOKEN';
       const response = await superagent.get(`${apiUrl}/${savedReminderData.reminder._id}`)
         .set('Authorization', `Bearer ${token}`);
