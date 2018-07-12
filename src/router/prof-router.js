@@ -8,7 +8,6 @@ const profileRouter = new Router();
 
 profileRouter.post('/api/profiles', bearerAuthMiddleware, (request, response, next) => {
   if (!request.account) return next(new HttpErrors(400, 'POST PROFILE ROUTER-AUTH: invalid request'));
-  console.log('req.account', request.account);
   Profile.init()
     .then(() => {
       return new Profile({
@@ -41,6 +40,47 @@ profileRouter.get('/api/profiles/:id?', bearerAuthMiddleware, (request, response
       if (!profile) return next(new HttpErrors(400, 'profile not found'));
       logger.log(logger.INFO, `PROFILE ROUTER GET: found profile: ${JSON.stringify(profile, null, 2)}`);
       return response.json(profile);
+    })
+    .catch(next);
+  return undefined;
+});
+
+profileRouter.put('/api/profiles/:id?', bearerAuthMiddleware, (request, response, next) => {
+  if (!request.account) return next(new HttpErrors(400, 'GET IT FIRST'));
+  if (!request.params.id) {
+    Profile.find({})
+      .then((profiles) => {
+        return response.json(profiles);
+      })
+      .catch(next);
+    return undefined;
+  }
+  Profile.findOneAndUpdate(request.params._id, request.body, { new: true })
+    .then((updatedProfile) => {
+      logger.log(logger.INFO, `PROFILE ROUTER PUT: found profile ${JSON.stringify(updatedProfile, null, 2)}`);
+      return response.json(updatedProfile);
+    })
+    .catch(next);
+  return undefined;
+});
+
+profileRouter.delete('/api/profiles/:id?', bearerAuthMiddleware, (request, response, next) => {
+  if (!request.account) return next(new HttpErrors(400, 'GET IT FIRST'));
+  if (!request.params.id) {
+    Profile.find({})
+      .then((profiles) => {
+        return response.json(profiles);
+      })
+      .catch(next);
+    return undefined;
+  }
+  Profile.findByIdAndRemove(request.params._id)
+    .then(() => {
+      const successfulDelete = {
+        message: 'Profile successfully deleted yall',
+        id: request._id,
+      };
+      return response.status(204).send(successfulDelete);
     })
     .catch(next);
   return undefined;
