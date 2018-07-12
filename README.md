@@ -15,7 +15,7 @@
 - Kevin Hwangpo
 
 ## Introduction:
-`RemindR <https://remindr-midterm.herokuapp.com/>`_  is an application that simply reminds you that you have something to do. A SMS message will be sent to your phone to let you know when an event is ready. Some examples include but are not limited to a pill that needs to be taken or you and a group of friends that need to make sure you follow through or just simply give your mom a remindR that you're hungry and need food. 
+`RemindR <https://remindr-midterm.herokuapp.com/>`_  is an application that simply reminds you or someone you know that you have something to do. An SMS message will be sent to your phone to let you know when an event is ready or when a task needs to be accomplished. Simply enter a time, a valid phone number, and remind someone that they have something they need to finish! When they have accomplished the task at hand or acknowledged the reminder, you will get a message on YOUR phone that the task has been completed. 
 
 ## Packages
 ```npm i``` to download all required packages!
