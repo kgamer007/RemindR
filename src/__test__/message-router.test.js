@@ -8,7 +8,7 @@ afterAll(stopServer);
 
 describe('POST api/messages', () => {
   test('200 for succesful POST message', () => {
-    console.log(createMockMessage(), 'create mock message');
+    console.log(createMockMessage(), 'create mock message'); 
     return createMockMessage()
       .then((response) => {
         console.log(response, 'RESPONSE IN MESSAGE ROUTER');
