@@ -35,7 +35,7 @@ app.use(profileRouter);
 
 // catch all
 app.all('*', (request, response) => {
-  console.log('in here')
+  console.log('in here');
   return response.sendStatus(404).send('Route Not Registered');
 });
 
@@ -43,6 +43,7 @@ app.use(errorMiddleWare);
 const startServer = () => {
   return mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
+      console.log(`Listening on PORT: ${process.env.PORT}`); // eslint-disable-line
       server = app.listen(PORT, () => {
       }); 
     })
