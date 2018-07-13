@@ -11,11 +11,14 @@ import loggerMiddleware from './middleware/logger-middleware';
 
 // our routes
 import authRouter from '../router/auth-router';
+import messageRouter from '../router/message-router';
+import imageRouter from '../router/image-router';
+import profileRouter from '../router/prof-router';
+import reminderRouter from '../router/reminder-router';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 let server = null;
-
 
 // third party apps
 app.use(cors());
@@ -25,9 +28,14 @@ app.use(express.json());
 // our own api routers or middleware
 app.use(loggerMiddleware);
 app.use(authRouter);
+app.use(messageRouter);
+app.use(reminderRouter);
+app.use(imageRouter);
+app.use(profileRouter);
+
 // catch all
 app.all('*', (request, response) => {
-  console.log('Returning a 404 from the catch/all route'); // eslint-disable-line
+  console.log('in here')
   return response.sendStatus(404).send('Route Not Registered');
 });
 
@@ -36,7 +44,6 @@ const startServer = () => {
   return mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
       server = app.listen(PORT, () => {
-        console.log('Server up:', PORT); // eslint-disable-line
       }); 
     })
     .catch((err) => {
