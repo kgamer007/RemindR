@@ -35,7 +35,6 @@ app.use(profileRouter);
 
 // catch all
 app.all('*', (request, response) => {
-  console.log('in here');
   return response.sendStatus(404).send('Route Not Registered');
 });
 

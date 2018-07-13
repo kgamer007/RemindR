@@ -11,7 +11,7 @@ authRouter.post('/api/signup', (request, response, next) => {
     .then((account) => {
       delete request.body.password;
       logger.log(logger.INFO, 'AUTH-ROUTER /api/signup: creating token');
-      console.log(`Creating account: ${account._id}.`);
+      console.log(`Creating account: ${account._id}.`); // eslint-disable-line
       return account.createTokenPromise();
     })
     .then((token) => {
