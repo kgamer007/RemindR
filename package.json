@@ -39,6 +39,7 @@
     "twilio": "^3.17.5"
   },
   "devDependencies": {
+    "artillery": "^1.6.0-22",
     "aws-sdk-mock": "^4.0.0",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.2.5",
