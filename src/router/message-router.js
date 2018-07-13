@@ -69,7 +69,6 @@ messageRouter.put('/api/messages/:id', bearerAuthMiddleware, (request, response,
 });
 
 messageRouter.delete('/api/messages/:id', bearerAuthMiddleware, (request, response, next) => {
-  console.log('got this far');
   Message.init()
     .then(() => {
       logger.log(logger.INFO, `MESSAGE ROUTER BEFORE DELETE: Deleting message #${request.params.id}`);

@@ -175,7 +175,6 @@ describe('PUT /api/messages/:id', () => {
 describe('DELETE ROUTES to /api/messages/:id', () => {
   test('204 DELETE /api/images for succesful delete', async () => {
     try {
-      // console.log(message, 'LOOOK FOR ME!!!!!');
       const response = await superagent.delete(`${apiUrl}/${message._id}`).set('Authorization', `Bearer ${token}`);
       expect(response.status).toEqual(204);
       // message.findById(message._id)
