@@ -4,7 +4,7 @@ import faker from 'faker';
 import { startServer, stopServer } from '../lib/server';
 import { createAccountMockPromise, removeAccountMockPromise } from './lib/account-mock';
 
-
+// JV: I don't think this line is necessary
 require('dotenv').config({ path: `${__dirname}/../../.env` });
 
 const apiUrl = `http://localhost:${process.env.PORT}/api`;

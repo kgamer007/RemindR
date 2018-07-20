@@ -1,3 +1,5 @@
+// JV: I believe this module should be more explicitly named "profile-router.test.js" as I was very confused at first when I read it
+
 import superagent from 'superagent';
 import faker from 'faker';
 import { startServer, stopServer } from '../lib/server';
@@ -6,11 +8,11 @@ import { removeAllResources, createProfileMockPromise } from './lib/prof-mock';
 import Account from '../model/account';
 import Profile from '../model/profile';
 
-require('babel-polyfill');
+// require('babel-polyfill');
 
 const apiUrl = `http://localhost:${process.env.PORT}/api`;
 
-describe('TESTING PROFILE ROUTER', () => {
+describe.only('TESTING PROFILE ROUTER', () => {
   let mockData;
   let token;
   let account;
