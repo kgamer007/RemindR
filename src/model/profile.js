@@ -22,6 +22,9 @@ const profileSchema = mongoose.Schema({
     unique: true,
     // ref: 'assets',
   },
+  bio: {
+    type: String,
+  },
 });
 
 const skipInit = process.env.NODE_ENV === 'development';
