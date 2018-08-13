@@ -9,6 +9,8 @@ import HttpErrors from 'http-errors';
 const HASH_ROUNDS = 8;
 const TOKEN_SEED_LENGTH = 128;
 
+require('dotenv').config();
+
 const accountSchema = mongoose.Schema({
   passwordHash: {
     type: String,
