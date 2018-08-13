@@ -3,10 +3,10 @@
 
 # RemindR App: Never go a day without a reminder 
 # Contents
-* [Developers](#Developers)
-* [Introduction](#Introduction)
-* [Getting Started](#Getting-Started)
-* [Running Locally ](#Running-Locally)
+* [Developers](#developers)
+* [Introduction](#introduction)
+* [Getting Started](#getting-Started)
+* [Running Locally ](#running-Locally)
 * [Routes](#routes)
 * [Packages and other Dependencies](#packages)
 
@@ -44,18 +44,18 @@
 
 ## Routes
 ```Account```
-POST: http://localhost:3000/api/accounts When making a post request you are creating a new message. 
+POST: http://localhost:3000/api/accounts When making a post request you are creating a new account. 
 GET: http://localhost:3000/api/accounts/:id This will grab information from Database by id. 
 
 ```Profile```
-POST: http://localhost:3000/api/profiles When making a post request you are creating a new message. 
+POST: http://localhost:3000/api/profiles When making a post request you are creating a new profile. 
 GET: http://localhost:3000/api/profiles/:id This will grab information from Database by id. 
 
 ```Images```
-POST: http://localhost:3000/api/images When making a post request you are creating a new message. 
+POST: http://localhost:3000/api/images When making a post request you are creating a new image. 
 GET: http://localhost:3000/api/images/:id This will grab information from Database by id. 
-PUT: http://localhost:3000/api/images/:id This route will allow the receiver to update a message with a response.
-DELETE: http://localhost:3000/api/images/:id This will delete a particuluar message by id. 
+PUT: http://localhost:3000/api/images/:id This route will allow the receiver to update a image with a response.
+DELETE: http://localhost:3000/api/images/:id This will delete a particuluar image by id. 
 
 ```Messages```
 POST: http://localhost:3000/api/messages When making a post request you are creating a new message. 
@@ -64,10 +64,10 @@ PUT: http://localhost:3000/api/messages/:id This route will allow the receiver t
 DELETE: http://localhost:3000/api/messages/:id This will delete a particuluar message by id. 
 
 ```Reminder```
-POST: http://localhost:3000/api/reminder When making a post request you are creating a new message. 
+POST: http://localhost:3000/api/reminder When making a post request you are creating a new reminder. 
 GET: http://localhost:3000/api/reminder/:id This will grab information from Database by id. 
-PUT: http://localhost:3000/api/reminder/:id This route will allow the receiver to update a message with a response.
-DELETE: http://localhost:3000/api/reminder/:id This will delete a particuluar message by id. 
+PUT: http://localhost:3000/api/reminder/:id This route will allow the receiver to update a reminder with a response.
+DELETE: http://localhost:3000/api/reminder/:id This will delete a particuluar reminder by id. 
 
 ## Packages
 ```npm i``` For those of you who want to start and use our back-end RemindR app, download all required packages!
@@ -83,3 +83,4 @@ DELETE: http://localhost:3000/api/reminder/:id This will delete a particuluar me
 - [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken#readme) - We wanted our users to be granted tokens to access their own accounts/profiles.
 
 ## ERD
+![alt text](https://github.com/kgamer007/RemindR/blob/master/ERDASSET/RemindR%20ERD.jpg)
