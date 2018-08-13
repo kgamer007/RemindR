@@ -17,7 +17,7 @@ authRouter.post('/api/signup', (request, response, next) => {
     .then((token) => {
       logger.log(logger.INFO, `AUTH-ROUTER /api/signup: returning a 200 code and a token ${token}`);
       const cookieOptions = { maxAge: 7 * 1000 * 60 * 60 * 24 };
-      response.cookie('_token', token, cookieOptions);
+      response.cookie('cookieToken', token, cookieOptions);
       return response.json({ token });
     })
     .catch(next);
@@ -30,7 +30,7 @@ authRouter.get('/api/login', basicAuthMiddleware, (request, response, next) => {
       logger.log(logger.INFO, `AUTH-ROUTER /api/login - responding with a 200 status code and a token ${token}`);
       
       const cookieOptions = { maxAge: 7 * 1000 * 60 * 60 * 24 };
-      response.cookie('_token', token, cookieOptions);
+      response.cookie('cookieToken', token, cookieOptions);
       return response.json({ token });
     })
     .catch(next);
