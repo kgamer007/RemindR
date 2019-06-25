@@ -20,8 +20,10 @@ beforeEach(() => {
   return createAccountMockPromise()
     .then((mockAccountData) => {
       token = mockAccountData.token; // eslint-disable-line
+      // JV: This is awesome that you guys figured out you could instantiate a new mongoose Objectid!
       mockMessageData.accountId = new mongoose.Types.ObjectId();
       mockMessageData.reminderId = new mongoose.Types.ObjectId();
+      // JV: great job with this regex
       mockMessageData.sentTo = `1${faker.phone.phoneNumberFormat()}`.replace(/-/g, '');
       mockMessageData.body = faker.lorem.words(5);
     })

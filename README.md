@@ -1,10 +1,15 @@
-## Travis Badge
+<!-- JV: explicitly calling this Travis Badge is unnecessary -->
+<!-- JV: Written analysis of your load testing results is not included in this readme per requirements -->
+<!-- You should include your deployed URL as well -->
+## Travis Badge 
 [![Build Status](https://travis-ci.org/kgamer007/RemindR.svg?branch=master)](https://travis-ci.org/kgamer007/RemindR)
 
+<!-- JV: Great job on getting your README to drop down to appropriate sections! -->
 # RemindR App: Never go a day without a reminder 
 # Contents
 * [Developers](#developers)
 * [Introduction](#introduction)
+<!-- Getting Started Link doesn't work -->
 * [Getting Started](#getting-Started)
 * [Running Locally ](#running-Locally)
 * [Routes](#routes)
@@ -28,6 +33,7 @@
 
  You will need a <a href="https://www.twilio.com/">Twilio Number</a>
 
+<!-- This is awesome that you explained what should be in the env -->
 #### In Your.env File:
 
  - PORT: defaults to 3000, set to 5000 for testing purposes
@@ -39,6 +45,7 @@
  - TWILIO_NUMBER: check Twilio account for reference
  - MY_NUMBER: personal phone number for testing purposes
  - AWS_BUCKET= fill in your own name when making your bucket on aws account.
+ <!-- Be mindful of your inconsistency between colons and equal signs, this causes huges problems if your users are copy/pasting these env variables in, all of this should be equal signs -->
  - AWS_SECRET_ACCESS_KEY: set to your own personal randomized sequence of alphanumeric characters
  - AWS_ACCESS_KEY_ID= provided by aws account
 

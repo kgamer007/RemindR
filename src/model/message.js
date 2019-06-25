@@ -1,3 +1,5 @@
+// JV: Awesome job with this message model
+
 import Twilio from 'twilio';
 import mongoose from 'mongoose';
 import logger from '../lib/logger';
@@ -33,6 +35,7 @@ const messageSchema = mongoose.Schema({
   },
 }, { timestamp: true });
 
+// JV: this is awesome that you guys figured this out!
 messageSchema.methods.sendText = function sendText() {
   client.messages.create({
     body: this.body,
